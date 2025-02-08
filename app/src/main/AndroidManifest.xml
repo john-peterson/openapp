@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <manifest 
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <!-- android:sharedUserId="com.termux" -->
+        <uses-permission android:name="android.permission.CAPABILITY_CAN_REQUEST_FILTER_KEY_EVENTS"/>
     <application 
         android:allowBackup="true" 
         android:icon="@mipmap/ic_launcher" 
@@ -19,5 +22,19 @@
                     android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".KeyInterceptor"
+            android:exported="true"
+            android:label="Open KeyInterceptor"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            >
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
     </application>
 </manifest>

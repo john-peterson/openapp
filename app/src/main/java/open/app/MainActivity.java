@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import open.app.databinding.ActivityMainBinding;
+import open.app.KeyInterceptor;
 
 public class MainActivity extends AppCompatActivity {
 	private ActivityMainBinding binding;
@@ -15,10 +16,17 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	public boolean onKeyDown(int key, KeyEvent event) {
 		// eMappedToEscape() || keyCode != KeyEvent.KEYCODE_BACK))
-		Toast.makeText(this, "roast"+ key + " ",Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, "down "+ key, Toast.LENGTH_SHORT).show();
+		// KeyInterceptor.isCap(this);
 		return super.onKeyDown(key, event);
 	}
-
+/*
+	@Override
+    public boolean onKeyEvent(KeyEvent event) {
+		Toast.makeText(this, "event key "+ event.getKeyCode() + " ",Toast.LENGTH_SHORT).show();
+		return super.onKeyEvent(event);
+		}
+*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
 		// set content view to binding's root
 		setContentView(binding.getRoot());
+        KeyInterceptor.setContext(this);
+		// Toast.makeText(this, " launched= " + KeyInterceptor.isLaunched(), Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
