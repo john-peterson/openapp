@@ -2,6 +2,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.itsaky.androidide.logsender'
 }
 
 android {
@@ -46,7 +47,8 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 }
 
 dependencies {
-
+// https://mvnrepository.com/artifact/com.itsaky.androidide.logsender/com.itsaky.androidide.logsender.gradle.plugin
+implementation('com.itsaky.androidide.logsender:com.itsaky.androidide.logsender.gradle.plugin:2.7.1-beta')
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
