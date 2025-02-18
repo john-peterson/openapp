@@ -2,16 +2,20 @@ package open.app
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import open.app.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+public class MainActivity : AppCompatActivity() {
+    private var _binding: ActivityMainBinding? = null
+    private val binding: ActivityMainBinding
+      get() = checkNotNull(_binding) { "Activity has been destroyed" }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val circularAdapter = CircularPagerAdapter(supportFragmentManager, lifecycle)
-        vwpHome.apply {
+        binding.vwpHome.apply {
             adapter = circularAdapter
             setCurrentItem(circularAdapter.getCenterPage(), false)
         }
