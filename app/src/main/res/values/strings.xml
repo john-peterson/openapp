@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">app</string>
-
+    <string name="app_name">CircularViewPager</string>
+    <string name="home_1">Home Page 1</string>
+    <string name="home_2">Home Page 2</string>
+    <string name="home_3">Home Page 3</string>
 </resources>
