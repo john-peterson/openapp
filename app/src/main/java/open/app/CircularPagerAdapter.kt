@@ -1,4 +1,4 @@
-package com.extmkv.circularviewpager.example
+package open.app
 
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle

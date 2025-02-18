@@ -1,4 +1,4 @@
-package com.extmkv.circularviewpager.example
+package open.app
 
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
