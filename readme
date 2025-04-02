@@ -1,0 +1,103 @@
+vim:ft=text
+
+this will build in termux WITHOUT downloading anything if you have
+
+java 17
+gradle 8.1.1
+android plugin 8.0.0
+platform 33
+aapt2
+
+this was the last version used by aide  before it was closed 
+
+most of the plugins in ~/.gradle under 
+
+com.android.application
+com.android.library
+com.android.tools.build
+
+will be 8.0.0
+
+with some effort and testing in the cloud to save bad width you can revert any project to this exact version 
+
+it's the only sensible way to build on device . multiple versions will require a hole in the wall in other words cloud rig
+
+the benefit is to work offline if you rarely have a connection 
+
+you can simulate off line mode with 
+
+gradle assembleDebug --offline
+
+
+# bounty gradle time machine 
+
+i am looking for a tool that turn back the clock on gradle project to specify version automatically always struggle for hours to avoid the gigantic gradle downloads 
+
+call it CRADLE or something back to the cradle . turn a 8.10 platform 35 project back to 8.1 33. voila it just works!
+
+cradle --gradle 8.1 --adk 33 --plugin 8.0
+
+success! you can now build it with what YOU have on hand. man tar vad man har - Swedish expression 
+
+was a gigantic effort to find this and build it in termux. every gradle update is testing my patience on a poor connect long way from home . i end up spending more time to restore the gradle version than actual coding 
+
+
+# build this project
+
+curl -s "https://get.sdkman.io" | bash
+source ~/.sdkman/bin/sdkman-init.sh
+sdk install gradle 8.1.1
+
+vim ~/.gradle/gradle.properties
+android.aapt2FromMavenOverride=/data/data/com.termux/files/usr/bin/aapt2
+
+and it will run out if memory over and over you have to use earlyoom and consider these settings that make it much slower
+
+org.gradle.parallel=false
+org.gradle.daemon=false
+org.gradle.jvmargs=-Xmx256m
+
+either of these files should work for the platform 
+
+sdkmanager --install  platform-tools "platforms;android-33"
+
+https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/sdk/android-sdk.tar.xz
+
+gradle assembleDebug | ack  error: -A5
+
+
+I only use this version in termux because java and android expect infinite storage and network capacity . one single version is already too big 
+
+the gain from the massive waste of space is reliable old apps. don't know why they care so desperately about it. on the opposite end is Haskell that is nearly impossible to even use five years old but has a small foot print 
+
+that gradle want every minor version in a separate gigantic file is questioning the sanity of the java community. i hapen to love it but hate the downloads and the endless fight to restore the old versions in the settings 
+
+
+# branch tags single letter prefix  request 
+
+they could have branch links short cuts from : or any single letter prefix 
+
+:branch // : before name akin to @user
+openapp@spy
+john-peterson/openapp@spy
+
+instead of this massive string 
+
+https://github.com/john-peterson/openapp/commits/spy
+
+
+
+# spy branch: global key listener
+
+this will block fp-keys globally it is always waiting for key events nothing else unsure about background battery use
+
+ it shows zero per cent for six hours. no division in foreground or background . it doesn't show up in battery list. key mapper on the other hand show massive battery use five for 13 minutes  and six percent 
+for two hours. all key mappers are garbage 
+
+the only thing i know about the device is this. that it exists   my phone is living proof 
+
+gh search code fp-keys
+
+
+
+
