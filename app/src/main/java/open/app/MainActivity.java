@@ -17,6 +17,18 @@ public class MainActivity extends AppCompatActivity {
 				Log.e(tag, "123abc android utilities log");
 	}
 
+	public static String create_folder(Context context) {
+		File[] directory = new File[0];
+		directory = context.getExternalMediaDirs();
+		for(int i = 0;i<directory.length;i++){
+			if(directory[i].getName().contains(context.getPackageName())){
+				return directory[i].getAbsolutePath();
+			}
+		}
+		return null;
+	}
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		log();
