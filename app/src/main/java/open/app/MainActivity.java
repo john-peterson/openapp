@@ -1,27 +1,29 @@
 
 package open.app;
 
-import androidx.appcompat.app.AppCompatActivity;
+// import androidx.appcompat.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
-import open.app.databinding.ActivityMainBinding;
+// import open.app.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
-private ActivityMainBinding binding;
+// public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
+// private ActivityMainBinding binding;
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 
 	// Inflate and get instance of binding
-	binding = ActivityMainBinding.inflate(getLayoutInflater());
+	// binding = ActivityMainBinding.inflate(getLayoutInflater());
 
 	// set content view to binding's root
-	setContentView(binding.getRoot());
+	// setContentView(binding.getRoot());
 }
 
 @Override
 protected void onDestroy() {
 	super.onDestroy();
-	this.binding = null;
+	// this.binding = null;
 }
 }
