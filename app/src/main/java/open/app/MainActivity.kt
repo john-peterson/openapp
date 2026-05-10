@@ -21,6 +21,16 @@ import androidx.activity.ComponentActivity
 // jetpack compose
 // androidx.compose.ui.platform.LocalContext
 
+import androidx.media3.common.Player
+import androidx.media3.common.VideoSize
+import androidx.media3.effect.Brightness
+import androidx.media3.effect.Effects
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.session.MediaController
+import androidx.media3.session.MediaSessionService
+import androidx.media3.ui.PlayerView
+
+
 public class MainActivity : AppCompatActivity() {
 
 private var _binding: ActivityMainBinding? = null
@@ -88,6 +98,63 @@ fun tost(){
 	landscapeHint = false
 }
 
+fun play(){
+	// Create the player instance
+	val player = ExoPlayer.Builder(this).build()
+	Log.e(tag, player::class.simpleName+" "+player::class.qualifiedName)
+	Log.e(tag, player::class.qualifiedName!!)
+
+	// player.videoSize.isPortrait
+	player.isPlaying
+	player.setPlaybackSpeed(1.0f)
+	// player.getIsLoudnessGainSupported()
+	
+	val playerView = findViewById<PlayerView>(R.id.player_view)
+	playerView.player = player
+
+	// Build a media item from a URI (URL or local path)
+	// val mediaItem = MediaItem.fromUri("https://example.com/video.mp4")
+
+	// player.setMediaItem(mediaItem)
+	// player.prepare()
+	// player.playWhenReady = true
+
+	// val bright = brightness.coerceIn(0f, maxBrightness)
+	val brightnessEffect = Brightness(0.5f) // Increase brightness
+	// val brightnessEffect = Brightness(brightness) // Increase brightness
+	// val brightnessEffect = Brightness(bright) // Increase brightness
+	// val brightnessEffect = Brightness(brightness.coerceIn(0f, maxBrightness))
+	val videoEffects = listOf(brightnessEffect)
+	// Applying to an ExoPlayer instance
+	// val exoPlayer = player as? ExoPlayer
+	player.setVideoEffects(videoEffects)
+}
+
+fun con(){
+	controllerFuture.addListener({
+		val mediaController = controllerFuture.get()
+		// mediaController implements the Player interface
+		mediaController.play() 
+	}, MoreExecutors.directExecutor())
+
+	// Example: Creating and using a MediaController
+	val sessionToken = SessionToken(context, ComponentName(context, PlaybackService::class.java))
+	val controllerFuture = MediaController.Builder(context, sessionToken).buildAsync()
+
+	// Create a list of effects
+	val videoEffects = mutableListOf<Effect>()
+	videoEffects.add(RgbFilter.createGrayscaleFilter())
+	videoEffects.add(ScaleAndRotateTransformation.Builder().setScale(.5f, .5f).build())
+
+	val mediaItem = player.currentMediaItem ?: return
+	val editedMediaItem = EditedMediaItem.Builder(mediaItem)
+	.setEffects(Effects(listOf(), effects)) // audioEffects, videoEffects
+	.build()
+
+	// Add the edited item to your player
+	player.setMediaItem(editedMediaItem.mediaItem)
+}
+
 override fun onCreate(savedInstanceState: Bundle?) {
 	// Log.e(tag, "")
 	// bat();
@@ -101,6 +168,8 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 	// set content view to binding's root
 	setContentView(binding.root)
+
+	play()
 }
 
 override fun onDestroy() {
