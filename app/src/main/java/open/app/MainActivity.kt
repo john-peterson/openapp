@@ -1,4 +1,3 @@
-
 package open.app
 
 import androidx.appcompat.app.AppCompatActivity
@@ -21,13 +20,23 @@ import androidx.activity.ComponentActivity
 // jetpack compose
 // androidx.compose.ui.platform.LocalContext
 
+// import com.google.common.util.concurrent.ListenableFuture
+import com.google.common.util.concurrent.MoreExecutors
+
+import android.content.ComponentName
+
+import androidx.media3.common.Effect
 import androidx.media3.common.Player
 import androidx.media3.common.VideoSize
 import androidx.media3.effect.Brightness
-import androidx.media3.effect.Effects
+import androidx.media3.effect.RgbFilter
+import androidx.media3.effect.ScaleAndRotateTransformation
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaController
 import androidx.media3.session.MediaSessionService
+import androidx.media3.session.SessionToken
+import androidx.media3.transformer.EditedMediaItem
+import androidx.media3.transformer.Effects
 import androidx.media3.ui.PlayerView
 
 
@@ -131,24 +140,38 @@ fun play(){
 }
 
 fun con(){
+	val context = this
+
+	// var controllerFuture: ListenableFuture<MediaController>? = null
+	// var controllerFuture: MediaController? = null
+	// if (controllerFuture == null) {
+	// 	val sessionToken = SessionToken(applicationContext, ComponentName(applicationContext, PlayerService::class.java))
+	// 	controllerFuture = MediaController.Builder(applicationContext, sessionToken).buildAsync()
+	// }
+
+	/*
+	*/
+	// Example: Creating and using a MediaController
+	val sessionToken = SessionToken(context, ComponentName(context, PlayerService::class.java))
+	val controllerFuture = MediaController.Builder(context, sessionToken).buildAsync()
+
+	/*
 	controllerFuture.addListener({
 		val mediaController = controllerFuture.get()
 		// mediaController implements the Player interface
 		mediaController.play() 
 	}, MoreExecutors.directExecutor())
-
-	// Example: Creating and using a MediaController
-	val sessionToken = SessionToken(context, ComponentName(context, PlaybackService::class.java))
-	val controllerFuture = MediaController.Builder(context, sessionToken).buildAsync()
+	*/
 
 	// Create a list of effects
 	val videoEffects = mutableListOf<Effect>()
 	videoEffects.add(RgbFilter.createGrayscaleFilter())
 	videoEffects.add(ScaleAndRotateTransformation.Builder().setScale(.5f, .5f).build())
 
+	val player = controllerFuture
 	val mediaItem = player.currentMediaItem ?: return
 	val editedMediaItem = EditedMediaItem.Builder(mediaItem)
-	.setEffects(Effects(listOf(), effects)) // audioEffects, videoEffects
+	.setEffects(Effects(listOf(), videoEffects)) // audioEffects, videoEffects
 	.build()
 
 	// Add the edited item to your player
