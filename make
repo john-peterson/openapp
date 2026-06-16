@@ -1,6 +1,7 @@
 #!/bin/env bash
 set -x
 set -e
+
 # tools_version=26.0.1
 BUILD_TOOLS_VERSION=current
 BUILD_TOOLS=$ANDROID_SDK/build-tools/$BUILD_TOOLS_VERSION
@@ -12,25 +13,25 @@ src=app/src/main/java
 manifest=app/src/main/AndroidManifest.xml
 jdk=8
 
-$BUILD_TOOLS/aapt package -f -m -S $res -J $src -M $manifest -I $ANDROID_JAR
+if test $# -gt 0; then
+	$BUILD_TOOLS/aapt package -f -m -S $res -J $src -M $manifest -I $ANDROID_JAR
+	rm -rf obj/*
+	javac -Xmaxerrs 1 -d ./obj -source $jdk -target $jdk -classpath $jar  -sourcepath $src $src/open/app/*.java
+	$BUILD_TOOLS/dx --dex --output=out/classes.dex ./obj
+	apk=unaligned.apk
+	chmod 644 $apk
+	$BUILD_TOOLS/aapt package -f -M $manifest -S $res -I $ANDROID_JAR -F $apk out
+	rm app/src/main/java/open/app/R.java
 
-rm -rf obj/*
-# javac -d ./obj -source 1.7 -target 1.7 -bootclasspath $JAVA_HOME/jre/lib/rt.jar -classpath $ANDROID_JAR:obj -sourcepath src src/org/linaro/glmark2/*.java
-# ls $src/open/app/*.java
-# ls $src/com/android/internal/app/*.java
-# find app/src -name "*.java"
-# javac -Xmaxerrs 1 -d ./obj -source 1.7 -target 1.7 -bootclasspath $JAVA_HOME/jre/lib/rt.jar -classpath $jar -sourcepath $src  $src/open/app/*.java $src/com/android/internal/app/*.java
-# find app/src -name "*.java" | xargs javac -Xmaxerrs 1 -d ./obj -source 1.7 -target 1.7 -bootclasspath $JAVA_HOME/jre/lib/rt.jar -classpath $jar -sourcepath  
-javac -Xmaxerrs 1 -d ./obj -source $jdk -target $jdk -classpath $jar  -sourcepath $src $src/open/app/*.java
-# javac -Xmaxerrs 1 -d ./obj -classpath $jar  -sourcepath $src $src/open/app/*.java
+else
+	gradle assembleDebug |& ack -i error -A3 -m1 && false
+	apk=app/build/outputs/apk/debug/app-debug.apk
+fi
 
-$BUILD_TOOLS/dx --dex --output=out/classes.dex ./obj
-$BUILD_TOOLS/aapt package -f -M $manifest -S $res -I $ANDROID_JAR -F unaligned.apk out
-rm app/src/main/java/open/app/R.java
+chmod 400 $apk
+CLASSPATH=$apk app_process -Xnoimage-dex2oat / open.app.Main -help
 
-# chmod 400 unaligned.apk
-# CLASSPATH=unaligned.apk app_process -Xnoimage-dex2oat / open.app.MainActivity -help
-# exit
+exit
 
 $JAVA_HOME/bin/jarsigner -verbose -keystore ~/.android/debug.keystore -storepass android -keypass android  unaligned.apk androiddebugkey
 $BUILD_TOOLS/zipalign -f 4 unaligned.apk aligned.apk

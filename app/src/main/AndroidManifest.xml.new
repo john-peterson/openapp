@@ -1,0 +1,11 @@
+<manifest 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	package="open.app"
+	>
+		<!--
+<application 
+    android:label="app"
+    android:supportsRtl="true" />
+		-->
+
+</manifest>
