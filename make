@@ -1,5 +1,5 @@
 #!/bin/env bash
-set -x
+# set -x
 set -e
 # tools_version=26.0.1
 BUILD_TOOLS_VERSION=current
@@ -21,7 +21,8 @@ rm -rf obj/*
 # find app/src -name "*.java"
 # javac -Xmaxerrs 1 -d ./obj -source 1.7 -target 1.7 -bootclasspath $JAVA_HOME/jre/lib/rt.jar -classpath $jar -sourcepath $src  $src/open/app/*.java $src/com/android/internal/app/*.java
 # find app/src -name "*.java" | xargs javac -Xmaxerrs 1 -d ./obj -source 1.7 -target 1.7 -bootclasspath $JAVA_HOME/jre/lib/rt.jar -classpath $jar -sourcepath  
-javac -Xmaxerrs 1 -d ./obj -source $jdk -target $jdk -classpath $jar  -sourcepath $src $src/open/app/*.java
+javac -Xmaxerrs 1 -d ./obj -source $jdk -target $jdk -bootclasspath $JAVA_HOME/jre/lib/rt.jar -classpath $jar  -sourcepath $src $src/open/app/*.java
+# javac -Xmaxerrs 1 -d ./obj -source $jdk -target $jdk -classpath $jar  -sourcepath $src $src/open/app/*.java
 # javac -Xmaxerrs 1 -d ./obj -classpath $jar  -sourcepath $src $src/open/app/*.java
 
 $BUILD_TOOLS/dx --dex --output=out/classes.dex ./obj
