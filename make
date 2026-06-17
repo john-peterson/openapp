@@ -17,7 +17,7 @@ jdk=7
 rm -rf obj/*
 # javac -Xmaxerrs 1  -d ./obj -source $jdk -target $jdk -classpath $jar  -sourcepath $src Main.java
 # javac -Xmaxerrs 1 -Xlint:-options -d obj -source $jdk -target $jdk -classpath $jar  -sourcepath $src Main.java
-javac -Xmaxerrs 1 -Xlint:-options -d obj -source $jdk -target $jdk -classpath $jar  Main.java
+javac -Xmaxerrs 1 -Xlint:-options -d obj -source $jdk -target $jdk -classpath $jar  Main.java main.java
 # javac -Xmaxerrs 1 -Xlint:-options -d ./obj -source 1.7 -target 1.7 -bootclasspath $JAVA_HOME/jre/lib/rt.jar -classpath $jar -sourcepath $src $src/Main.java
 # find app/src -name "*.java" | xargs javac -Xmaxerrs 1 -d ./obj -source 1.7 -target 1.7 -bootclasspath $JAVA_HOME/jre/lib/rt.jar -classpath $jar -sourcepath  
 # javac -Xmaxerrs 1 -d ./obj -source 1.7 -target 1.7 -bootclasspath $JAVA_HOME/jre/lib/rt.jar -classpath $jar -sourcepath $src $src/open/app/Main.java
@@ -25,6 +25,7 @@ javac -Xmaxerrs 1 -Xlint:-options -d obj -source $jdk -target $jdk -classpath $j
 $BUILD_TOOLS/dx --dex --output=out/classes.dex ./obj
 $BUILD_TOOLS/aapt package -f -M $manifest -I $ANDROID_JAR -F unaligned.apk out
 chmod 400 unaligned.apk
-CLASSPATH=unaligned.apk app_process -Xnoimage-dex2oat / open.app.Main -help
+# CLASSPATH=unaligned.apk app_process -Xnoimage-dex2oat / open.app.Main -help
+CLASSPATH=unaligned.apk app_process -Xnoimage-dex2oat / open.app.main -help
 # adb install unaligned.apk
 # cmd package install unaligned.apk
